@@ -1,0 +1,96 @@
+<mvc:View
+	controllerName="de.dehner.dehnerodata2.controller.Worklist"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:semantic="sap.f.semantic">
+
+	<semantic:SemanticPage
+		id="page"
+		headerPinnable="false"
+		toggleHeaderOnTitleClick="false">
+
+		<semantic:titleHeading>
+			<Title
+				text="{i18n>worklistTitle}"
+				level="H2"/>
+		</semantic:titleHeading>
+
+		<semantic:content>
+			<Table
+                class="sapUiSizeCozy"
+                mode="SingleSelect"
+                includeItemInSelection="true"
+				id="table"
+				width="auto"
+                popinLayout="GridSmall"
+				items="{
+					path: '/ArticleSet',
+					sorter: {
+						path: 'Artikelname',
+						descending: false
+					}
+				}"
+				noDataText="xxx{worklistView>/tableNoDataText}"
+				busyIndicatorDelay="{worklistView>/tableBusyDelay}"
+				growing="true"
+				growingScrollToLoad="true"
+				updateFinished=".onUpdateFinished">
+
+				<headerToolbar>
+					<OverflowToolbar>
+						<Title
+							id="tableHeader"
+							text="{worklistView>/worklistTableTitle}"
+							level="H3"/>
+						<ToolbarSpacer />
+                        <Button text="Default" press="onPress" />
+                        <ToolbarSpacer />
+						<SearchField
+							id="searchField"
+							tooltip="{i18n>worklistSearchTooltip}"
+							search=".onSearch">
+							<layoutData>
+								<OverflowToolbarLayoutData
+									maxWidth="200px"
+									priority="NeverOverflow"/>
+							</layoutData>
+						</SearchField>
+					</OverflowToolbar>
+				</headerToolbar>
+
+				<columns>
+                    
+					<Column id="nameColumn" width="18em">
+						<Text text="{i18n>tableNameColumnTitle}1" id="nameColumnTitle" visible = "{= !${device>/system/phone} }"/>                        
+					</Column>
+                    <Column id="nameColumn2" width="8em" minScreenWidth="tablet" demandPopin="true" >
+                        <header>
+						    <Text text="{i18n>tableNameColumnTitle}" id="nameColumnTitle2" visible = "{= !${device>/system/phone} }"/>
+                        </header>
+					</Column>
+					
+				</columns>
+
+				<items>
+					<ColumnListItem
+						type="Navigation" 
+						press=".onPress">
+						<cells>
+							<ObjectIdentifier
+								title="{Werkname}"/>
+                            <Label text="{Artikelname}" />
+							
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</semantic:content>
+
+		<semantic:sendEmailAction>
+			<semantic:SendEmailAction id="shareEmail" press=".onShareEmailPress"/>
+		</semantic:sendEmailAction>
+
+
+	</semantic:SemanticPage>
+
+</mvc:View>
